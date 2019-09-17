@@ -8,6 +8,7 @@ map.onmouseover = function (event) {
         target.setAttribute("fill", "#342422");
     }
 };
+
 map.onmouseout = function (event) {
     let target = event.target;
     if (target.nodeName == "path") {
@@ -16,15 +17,13 @@ map.onmouseout = function (event) {
 };
 
 marker.onmousedown = function (event) {
-    map.append(img);
+    map.prepend(img);
     img.clientX = marker.clientX;
     img.clientY = marker.clientY;
 };
 
 img.onmousedown = function (event) {
-    img.clientX = marker.clientX;
-    img.clientY = marker.clientY;
-
+    
     let shiftX = event.clientX - img.getBoundingClientRect().left;
     let shiftY = event.clientY - img.getBoundingClientRect().top;
 
