@@ -1,5 +1,6 @@
-let map = (document.getElementsByClassName("map"))[0]
+let map = (document.getElementsByClassName("external-map"))[0]
 let marker = (document.getElementsByClassName("marker"))[0];
+let img = marker.cloneNode(true);
 
 map.onmouseover = function (event) {
     let target = event.target;
@@ -15,18 +16,20 @@ map.onmouseout = function (event) {
 };
 
 marker.onmousedown = function (event) {
+    map.append(img);
+    img.clientX = marker.clientX;
+    img.clientY = marker.clientY;
+};
 
-    let img = marker.cloneNode(true);
-    document.body.append(img);
-    img.clientX = event.clientX;
-    img.clientY = event.clientY;
+img.onmousedown = function (event) {
+    img.clientX = marker.clientX;
+    img.clientY = marker.clientY;
 
     let shiftX = event.clientX - img.getBoundingClientRect().left;
     let shiftY = event.clientY - img.getBoundingClientRect().top;
 
     img.style.position = 'absolute';
     img.style.zIndex = 1000;
-    document.body.append(img);
 
     moveAt(event.pageX, event.pageY);
 
@@ -45,10 +48,13 @@ marker.onmousedown = function (event) {
         document.removeEventListener('mousemove', onMouseMove);
         img.onmouseup = null;
     };
-
-};
+}
 
 marker.ondragstart = function () {
     return false;
 }
+img.ondragstart = function () {
+    return false;
+}
+
 
